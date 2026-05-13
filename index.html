@@ -1,0 +1,97 @@
+import { useEffect, useMemo, useState } from "react";
+
+export default function DoNotDeleteLogin() { const [password, setPassword] = useState(""); const [errorMessage, setErrorMessage] = useState(""); const [showDesktopLoading, setShowDesktopLoading] = useState(false);
+
+const wrongResponses = useMemo( () => ["wrong creature", "try again menace", "nope."], [] );
+
+useEffect(() => { const handleKeyPress = (e) => { if (e.key === "Enter") { if (password.toLowerCase() === "godzilla") { setShowDesktopLoading(true); setErrorMessage(""); } else { const randomMessage = wrongResponses[Math.floor(Math.random() * wrongResponses.length)]; setErrorMessage(randomMessage); } } };
+
+window.addEventListener("keydown", handleKeyPress);
+
+return () => {
+  window.removeEventListener("keydown", handleKeyPress);
+};
+
+}, [password, wrongResponses]); return ( <div className="relative h-screen w-full overflow-hidden bg-black text-white font-sans"> {/* Wallpaper */} <div className="absolute inset-0 bg-cover bg-center scale-105 blur-[2px]" style={{ backgroundImage: "url('/wallpapers/cozy_cherryblossom_night.png')", }} />
+
+{/* Dark Overlay */}
+  <div className="absolute inset-0 bg-black/40" />
+
+  {/* Grain Effect */}
+  <div className="absolute inset-0 opacity-10 mix-blend-soft-light pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')]" />
+
+  {/* Clock */}
+  <div className="absolute top-8 left-1/2 -translate-x-1/2 text-center z-10">
+    <h1 className="text-6xl font-light tracking-wide">2:14</h1>
+    <p className="text-sm opacity-70 mt-1">Wednesday, May 13</p>
+  </div>
+
+  {/* Login Card */}
+  <div className="relative z-10 flex items-center justify-center h-full">
+    <div className="backdrop-blur-xl bg-white/10 border border-white/10 rounded-3xl px-12 py-10 text-center shadow-2xl w-[420px]">
+      {/* Pixel Icon */}
+      <div className="flex justify-center mb-5">
+        <div className="w-16 h-16 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center text-3xl">
+          🦖
+        </div>
+      </div>
+
+      {/* Username */}
+      <h2 className="text-2xl font-light tracking-wide mb-2">tinyhuman</h2>
+
+      {/* Main Line */}
+      <p className="text-sm opacity-70 mb-8">
+        this took years off my lifespan.
+      </p>
+
+      {/* Password Box */}
+      <input
+        type="password"
+        placeholder="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="w-full rounded-2xl bg-white/10 border border-white/10 px-5 py-3 outline-none placeholder:text-white/40 focus:border-white/30 transition-all"
+      />
+
+      {/* Hint */}
+      <button className="mt-4 text-xs opacity-50 hover:opacity-80 transition-all">
+        tiny monster
+      </button>
+
+      {/* Random Wrong Password Responses */}
+      <div className="mt-6 h-5 text-xs opacity-50 italic transition-all">
+        {errorMessage}
+      </div>
+    </div>
+  </div>
+
+  {/* Bottom Details */}
+  <div className="absolute bottom-5 left-6 text-xs opacity-40 z-10">
+    build 143: sleep deprived edition
+  </div>
+
+  <div className="absolute bottom-5 right-6 text-xs opacity-40 z-10">
+    press enter to continue
+  </div>
+
+  {/* Sticky Note Preview */}
+  <div className="absolute bottom-20 right-10 rotate-[-4deg] bg-yellow-100 text-black px-4 py-3 rounded-lg shadow-xl text-sm z-10">
+    take your time exploring.
+  </div>
+      {/* Desktop Loading Transition */}
+  {showDesktopLoading && (
+    <div className="absolute inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center animate-fade">
+      <div className="text-center">
+        <div className="text-5xl mb-4">🏠</div>
+        <p className="text-2xl font-light tracking-wide mb-2">
+          loading desktop...
+        </p>
+        <p className="text-sm opacity-60">
+          now playing: Promise — Jimin
+        </p>
+      </div>
+    </div>
+  )}
+</div>
+
+); }
